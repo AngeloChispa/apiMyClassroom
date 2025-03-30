@@ -15,10 +15,14 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, int $role): Response
     {
+
+        /* dd(auth()->user()); */
+
+        //Creo que no es necesario verificar si ya se logueo el usuario
         if(auth()->user()->role_id === $role){
             return $next($request);
         }
 
-        return response()->json(['si' => 'Forbidden'], 403);
+        return response()->json(['erro' => 'Forbidden'], 403);
     }
 }

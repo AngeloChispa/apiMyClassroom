@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->string('description', 255);
+            $table->string('description', 255)->nullable();
             $table->string('grade', 255);
             $table->tinyInteger('activate')->default(1);
             $table->foreignId('career_id')->references('id')->on('careers');

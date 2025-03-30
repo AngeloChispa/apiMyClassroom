@@ -13,6 +13,7 @@ class Subject extends Model
         'name',
         'description',
         'grade',
+        'career_id'
     ];
 
     public function career(): BelongsTo{
