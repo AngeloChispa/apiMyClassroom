@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Todo lo que esta aqui si jala no pelen los errores
+ * PHP no sirve
+ */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
