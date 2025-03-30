@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddUserRequest;
 use App\Http\Requests\SubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -24,4 +25,16 @@ class SubjectController extends Controller
         ], 201);
 
     }
+
+    public function addUsers(AddUserRequest $request){
+        $subject = Subject::findOrFail($request->input('subject'));
+
+        $subject->users()->syncWithoutDetaching($request->input('users'));
+    
+        return response()->json([
+            'mensaje' => 'Materia asignada correctamente',
+            'data' => $request->all(),
+        ],200);
+    }
+
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,8 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh'])/* ->middleware(RoleMiddleware::class.':1') */;
     Route::post('/me', [AuthController::class, 'me']);
 
-    Route::get('/career', [CareerController::class, 'index'])->middleware(RoleMiddleware::class.':1');
+    Route::get('/career', [CareerController::class, 'index'])->middleware(RoleMiddleware::class.':0');
+    Route::get('/user/{role}', [UserController::class, 'users'])->middleware(RoleMiddleware::class.':0');
 });
 
 Route::group([
@@ -26,5 +28,6 @@ Route::group([
     'prefix' => 'teacher'
 ], function($router){
     Route::post('/subject/store', [SubjectController::class, 'store'])->middleware(RoleMiddleware::class.':1');
+    Route::post('/subject/users', [SubjectController::class, 'addUsers'])->middleware(RoleMiddleware::class.':1');
 }   
 ); 
