@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
+
+    public function index()
+    {
+        $subjects = Subject::all(); 
+
+        return response()->json([
+            'success' => true,
+            'data' => $subjects
+        ], 200);
+    }
+
+
     public function store(SubjectRequest $request){
         $subject = new Subject();
 
