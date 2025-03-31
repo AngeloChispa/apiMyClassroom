@@ -11,7 +11,7 @@ class AddUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,9 @@ class AddUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subject' => 'required|integer',
-            'users' =>  'required'
+            'subject' => 'required|integer|exists:subjects,id',
+            'users' =>  'required|array|min:1',
+            'users.*' => 'exists:users,id'
         ];
     }
 }

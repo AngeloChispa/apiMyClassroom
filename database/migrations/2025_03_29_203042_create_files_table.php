@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('path',512);
-            $table->foreignId('notice_id')->references('id')->on('notices')->nullable();
-            $table->foreignId('resource_id')->references('id')->on('resources')->nullable();
+            $table->string('path', 512);
+            $table->unsignedBigInteger('notice_id')->nullable();
+            $table->foreign('notice_id')->references('id')->on('notices');
+
+            $table->unsignedBigInteger('resource_id')->nullable();
+            $table->foreign('resource_id')->references('id')->on('resources');
             $table->timestamps();
         });
     }

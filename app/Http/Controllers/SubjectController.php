@@ -32,9 +32,9 @@ class SubjectController extends Controller
         $subject->users()->syncWithoutDetaching($request->input('users'));
     
         return response()->json([
-            'mensaje' => 'Materia asignada correctamente',
+            'success' => true,
             'data' => $request->all(),
-        ],200);
+        ],201);
     }
 
 }

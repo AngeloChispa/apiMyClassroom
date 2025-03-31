@@ -28,6 +28,6 @@ class RoleMiddleware
         }
         /* dd(auth()->user()); */
         
-        return response()->json(['error' => 'Forbidden'], 403); 
+        return response()->json(['error2' => 'Forbidden'], 403); 
     }
 }
