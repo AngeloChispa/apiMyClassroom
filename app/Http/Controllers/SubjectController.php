@@ -16,7 +16,7 @@ class SubjectController extends Controller
         $subject->description = $request->description;
         $subject->career_id = $request->career_id;
         $subject->grade = $request->grade;
-
+        $subject->users()->syncWithoutDetaching($request->input('user_id'));
         $subject->save();
 
         return response()->json([

@@ -16,7 +16,7 @@ class FileController extends Controller
         //dd($data);
         foreach ($files as $file) {
             $object = new File();
-            $timestamp = Carbon::now()->format('Y-m-d_H-i-s'); // Formato seguro para nombres de archivo
+            $timestamp = Carbon::now()->format('Y-m-d_H-i-s');
             $filename = $file->getClientOriginalName() . '_' . $timestamp;
             
 

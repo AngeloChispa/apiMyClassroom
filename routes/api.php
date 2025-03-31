@@ -24,6 +24,7 @@ Route::group([
     Route::get('/career', [CareerController::class, 'index'])->middleware(RoleMiddleware::class.':0');
     Route::get('/user/{role}', [UserController::class, 'users'])->middleware(RoleMiddleware::class.':0');
     Route::post('/file', [FileController::class, 'uploadFiles'])->middleware(RoleMiddleware::class.':0');
+    Route::get('/subjects', [UserController::class, 'subjects'])->middleware(RoleMiddleware::class.':0');
 });
 
 Route::group([
