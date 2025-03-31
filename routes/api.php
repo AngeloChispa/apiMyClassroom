@@ -31,6 +31,7 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'teacher'
 ], function($router){
+    Route::get('/subjects', [SubjectController::class, 'index'])->middleware(RoleMiddleware::class.':1');
     Route::post('/subject/subject', [SubjectController::class, 'store'])->middleware(RoleMiddleware::class.':1');
     Route::post('/subject/users', [SubjectController::class, 'addUsers'])->middleware(RoleMiddleware::class.':1');
     Route::post('/subject/notice', [NoticeController::class, 'store'])->middleware(RoleMiddleware::class.':1');
