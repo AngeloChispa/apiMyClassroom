@@ -11,7 +11,7 @@ class NoticeController extends Controller
 {
 
     public function notices(int $id){
-        return response()->json(Notice::where('subject_id',$id)->get());
+        return response()->json(Notice::where('subject_id',$id)->with('files')->get());
     }
 
     public function store(NoticeRequest $request){

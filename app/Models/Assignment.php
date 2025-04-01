@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Assignment extends Model
 {
@@ -13,7 +13,7 @@ class Assignment extends Model
         'status',
     ];
 
-    public function resource(): HasOne{
-        return $this->hasOne(Resource::class);
+    public function resource(): BelongsTo{
+        return $this->belongsTo(Resource::class);
     }
 }

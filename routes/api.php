@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
@@ -153,5 +154,19 @@ Route::group(
          * }
          */
         Route::post('/subject/topic', [TopicController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
+        
+
+        /**
+         * Esto permite crear material para un tema, para subir los archivos tienes que usar la ruta de subir archivos
+         * declarada anteriormente
+         * 
+         * {
+         *      "title":"Material",
+         *      "description":"si",
+         *      "topic":1,
+         *      "subject":1
+         * }
+         */
+        Route::post('/subject/resource', [ResourceController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
     }
 );
