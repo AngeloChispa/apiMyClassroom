@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -18,4 +19,13 @@ class UserController extends Controller
             'subjects' => $subjects->all(),
         ],201);
     }
+
+    public function usersOnSubject(int $id){
+        $subject = Subject::findOrFail($id);
+        $users = $subject->users;
+        return response()->json([
+            'users' => $users->all()
+        ],201);
+    }
+
 }

@@ -37,4 +37,14 @@ class SubjectController extends Controller
         ],201);
     }
 
+    public function topicsOnSubject(int $id){
+        $subject = Subject::findOrFail($id);
+        
+        $topics = $subject->topics;
+
+        return response()->json([
+            'data' => $topics->all()
+        ],201);
+    }
+
 }

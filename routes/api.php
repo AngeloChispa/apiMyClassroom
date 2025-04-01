@@ -5,6 +5,7 @@ use App\Http\Controllers\CareerController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -46,7 +47,7 @@ Route::group([
      * Esto regresa todas las carreras
      * 
      * Header Authorization 
-    */
+     */
     Route::get('/career', [CareerController::class, 'index'])->middleware(RoleMiddleware::class . ':0');
 
     /**
@@ -78,6 +79,24 @@ Route::group([
      * (Regresara los datos del aviso con id 1)
      */
     Route::get('/notices/{id}', [NoticeController::class, 'notices'])->middleware(RoleMiddleware::class . ':0');
+
+    /**
+     * Esto regresa todos los usuarios de un subject especifico
+     * 
+     * Ejemplo de URL: http://127.0.0.1:8000/api/auth/subject/users/1
+     * (Regresa todos los alumnos de la clase con id 1)
+     * 
+     */
+    Route::get('/subject/users/{id}', [UserController::class, 'usersOnSubject'])->middleware(RoleMiddleware::class . ':0');
+
+    /**
+     * Esto regresa todos los temas de una clase especifica
+     * 
+     * Ejemplo de URL:http://127.0.0.1:8000/api/auth/subject/topics/1
+     * (Regresa todos los temas de la clase con id 1)
+     * 
+     */
+    Route::get('/subject/topics/{id}', [SubjectController::class, 'topicsOnSubject'])->middleware(RoleMiddleware::class . ':1');
 });
 
 Route::group(
@@ -123,5 +142,16 @@ Route::group(
          * }
          */
         Route::post('/subject/notice', [NoticeController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
+
+        /**
+         * Esto permite crear temas en una clase existente
+         * 
+         * {
+         *      "name" : "AJAX",
+         *      "description":"Parece que esta feo pero es de lo mejor que existe",
+         *      "subject":1
+         * }
+         */
+        Route::post('/subject/topic', [TopicController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
     }
 );
