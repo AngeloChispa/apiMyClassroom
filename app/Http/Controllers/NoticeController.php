@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class NoticeController extends Controller
 {
+
+    public function notices(int $id){
+        return response()->json(Notice::where('subject_id',$id)->get());
+    }
+
     public function store(NoticeRequest $request){
         $notice = new Notice();
 
