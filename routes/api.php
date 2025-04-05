@@ -189,7 +189,19 @@ Route::group(
          * }
          */
         Route::post('/subject/resource', [ResourceController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
-    
+        
+
+        /**
+         * Esto permite crear una tarea para una clase en especifico
+         * 
+         * {
+         *      "title":"Tarea bien maldita",
+         *      "description":"Jalen",
+         *      "topic":1,
+         *      "subject":1,
+         *      "limit":"2025-04-24 15:32"
+         * }
+         */
         Route::post('/subject/assignment', [AssignmentController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
     }
 );
