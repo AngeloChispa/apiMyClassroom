@@ -84,7 +84,7 @@ class User extends Authenticatable implements JWTSubject
     }
     
     public function assignments(): BelongsToMany{
-        return $this->belongsToMany(Assignment::class)->withPivot('id');
+        return $this->belongsToMany(Assignment::class)->withPivot('id','status');
     }
 
 }

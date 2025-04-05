@@ -26,14 +26,10 @@ class TopicController extends Controller
 
     public function resourcesOnTopic(int $id){
         $topic = Topic::findOrFail($id);
-        $resources = $topic->resources()
-        ->with('files')
-        ->whereDoesntHave('assignment') // Filtra los que no están en Assignment
-        ->get();
+        $resources = $topic->resources()->with('files','assignment')->get();
 
         return response()->json([
             $resources->all()
         ],201);
-
     }
 }

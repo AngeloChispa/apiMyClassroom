@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\FileController;
@@ -101,10 +102,20 @@ Route::group([
 
 
     /**
-     * Esto te regresa todos los materiales en un TEMA especifico.
+     * Esto te regresa todos los materiales y tareas en un TEMA especifico.
      * 
      * Ejemplo URL: http://127.0.0.1:8000/api/auth/subject/resources/1
-     * (Regresa todos los materiales del tema que tenga el id 1)
+     * (Regresa todos los materiales y tareas del tema que tenga el id 1)
+     * 
+     * Los materiales que ademas son una tarea tienen un array que se llama assignment si este esta vacio puedes concluir que es solo
+     * un material y no una tarea.
+     * 
+     * Recomiendo ver el modelo de la BD para entender mejor la relación:
+     * 
+     * 
+     * 
+     * Ya namas en el front los ordenas por fecha de creacion (created_at) y le das una vista diferente a las tareas al momento de abrirlas. 
+     * 
      * 
      */
     Route::get('/subject/resources/{id}', [TopicController::class, 'resourcesOnTopic'])->middleware(RoleMiddleware::class . ':0');
@@ -178,5 +189,7 @@ Route::group(
          * }
          */
         Route::post('/subject/resource', [ResourceController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
+    
+        Route::post('/subject/assignment', [AssignmentController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
     }
 );

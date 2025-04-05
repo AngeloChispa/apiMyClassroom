@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('assignments', function (Blueprint $table) {
             $table->id();
             $table->date('limit');
-            $table->integer('grades');
-            $table->string('status',64);
+            $table->integer('grades')->nullable();
+            $table->tinyInteger('graded')->default(0);
             $table->foreignId('resource_id')->references('id')->on('resources');
             $table->timestamps();
         });

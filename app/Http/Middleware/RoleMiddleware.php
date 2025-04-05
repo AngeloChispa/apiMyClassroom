@@ -21,7 +21,7 @@ class RoleMiddleware
                     return $next($request);
                 }
     
-                return response()->json(['erro' => 'Forbidden'], 403);
+                return response()->json(['error' => 'Forbidden'], 403);
             }
 
             return $next($request);
