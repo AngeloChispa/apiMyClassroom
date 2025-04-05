@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TopicRequest;
+use App\Models\Assignment;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 
@@ -21,5 +22,18 @@ class TopicController extends Controller
             'success' => true,
             'data' => $request->all(),
         ],201);
+    }
+
+    public function resourcesOnTopic(int $id){
+        $topic = Topic::findOrFail($id);
+        $resources = $topic->resources()
+        ->with('files')
+        ->whereDoesntHave('assignment') // Filtra los que no están en Assignment
+        ->get();
+
+        return response()->json([
+            $resources->all()
+        ],201);
+
     }
 }

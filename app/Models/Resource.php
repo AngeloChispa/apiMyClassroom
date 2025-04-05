@@ -30,4 +30,8 @@ class Resource extends Model
     public function subject():HasOneThrough {
         return $this->hasOneThrough(Subject::class, Topic::class);
     }
+
+    public function topic(): BelongsTo{
+        return $this->belongsTo(Topic::class);
+    }
 }

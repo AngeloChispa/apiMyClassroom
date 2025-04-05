@@ -97,7 +97,17 @@ Route::group([
      * (Regresa todos los temas de la clase con id 1)
      * 
      */
-    Route::get('/subject/topics/{id}', [SubjectController::class, 'topicsOnSubject'])->middleware(RoleMiddleware::class . ':1');
+    Route::get('/subject/topics/{id}', [SubjectController::class, 'topicsOnSubject'])->middleware(RoleMiddleware::class . ':0');
+
+
+    /**
+     * Esto te regresa todos los materiales en un TEMA especifico.
+     * 
+     * Ejemplo URL: http://127.0.0.1:8000/api/auth/subject/resources/1
+     * (Regresa todos los materiales del tema que tenga el id 1)
+     * 
+     */
+    Route::get('/subject/resources/{id}', [TopicController::class, 'resourcesOnTopic'])->middleware(RoleMiddleware::class . ':0');
 });
 
 Route::group(

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PhpParser\Node\Expr\Assign;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 
@@ -82,4 +83,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Subject::class)/* ->withPivot('user_id', 'subject_id') */;
     }
     
+    public function assignments(): BelongsToMany{
+        return $this->belongsToMany(Assignment::class)->withPivot('id');
+    }
+
 }

@@ -32,6 +32,5 @@ class ResourceController extends Controller
             'success' => true,
             'data' => $request->all()
         ],201);
-        
     }
 }
