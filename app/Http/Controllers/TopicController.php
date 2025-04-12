@@ -26,7 +26,7 @@ class TopicController extends Controller
 
     public function resourcesOnTopic(int $id){
         $topic = Topic::findOrFail($id);
-        $resources = $topic->resources()->with('files','assignment')->get();
+        $resources = $topic->resources()->with('files','assignment')->orderBy('created_at', 'desc')->get();
 
         return response()->json([
             $resources->all()

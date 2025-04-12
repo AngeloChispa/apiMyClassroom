@@ -203,5 +203,9 @@ Route::group(
          * }
          */
         Route::post('/subject/assignment', [AssignmentController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
+    
+        //Route::get('/subject/noGraded/{id}', [AssignmentController::class, 'noGradedAssigns'])->middleware(RoleMiddleware::class . ':1');
+    
+        Route::patch('/subject/evaluate', [AssignmentController::class, 'evaluate'])->middleware(RoleMiddleware::class . ':1');
     }
 );

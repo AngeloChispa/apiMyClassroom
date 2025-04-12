@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AssignmentRequest;
+use App\Http\Requests\EvaluateRequest;
 use App\Models\Assignment;
 use App\Models\Notice;
 use App\Models\Resource;
@@ -12,9 +13,10 @@ use Illuminate\Http\Request;
 
 class AssignmentController extends Controller
 {
-    public function store(AssignmentRequest $request){
+    public function store(AssignmentRequest $request)
+    {
         $resource = new Resource();
-        
+
         $resource->title = $request->title;
         $resource->description = $request->description;
         $resource->topic_id = $request->topic;
@@ -42,7 +44,36 @@ class AssignmentController extends Controller
         return response()->json([
             'success' => true,
             'data' => $request->all()
-        ],201);
+        ], 201);
+    }
 
+    /**
+     *  0 = Asignado
+     *  1 = Calificado
+     *  2 = Entregado 
+     */
+    public function evaluate(EvaluateRequest $request)
+    {
+        $assignment = Assignment::findOrFail($request->assignment);
+        $user = $assignment->users()->where('user_id', $request->student)->first();
+        //dd(json_encode($user));
+
+        $user->pivot->status = 1;
+        $user->pivot->grades = $request->grade;
+        $user->pivot->graded = 1;
+
+        $user->pivot->save();
+        return response()->json(
+            [
+                'success' => true,
+                'data' => $request->all(),
+            ],200
+        );
+    }
+
+    public function noGradedAssigns($id)
+    {
+        $assignments = Assignment::findOrFail($id)->where('graded', 0);
+        dd($assignments);
     }
 }

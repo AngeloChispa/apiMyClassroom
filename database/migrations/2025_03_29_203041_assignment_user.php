@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('assignment_id')->references('id')->on('assignments');
             $table->tinyInteger('status')->default(0);
+            $table->integer('grades')->nullable();
+            $table->tinyInteger('graded')->default(0);
             $table->timestamps();
         });
     }
