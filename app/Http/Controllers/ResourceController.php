@@ -11,22 +11,34 @@ use Illuminate\Http\Request;
 class ResourceController extends Controller
 {
     public function store(ResourceRequest $request){
+        $files = $request->file('files');
+
         $resource = new Resource();
-        $resource->title = $request->title;
-        $resource->description = $request->description;
-        $resource->topic_id = $request->topic;
+        $resource->title = $request->input('data.title');
+        $resource->description = $request->input('data.description');
+        $resource->topic_id = $request->input('data.topic');
 
         $user = auth()->user();
         $notice = new Notice();
 
-        $notice->message = $user->name . " " . $user->lastname . " ha publicado nuevo material: " . $request->title;
+        $notice->message = $user->name . " " . $user->lastname . " ha publicado nuevo material: " . $request->input('data.title');
         $notice->date = Carbon::now();
-        $notice->subject_id = $request->subject;
+        $notice->subject_id = $request->input('data.subject');
         $notice->save();
 
         $resource->notice_id = $notice->id;
 
         $resource->save();
+
+        if($files){
+            /**
+             *  Types:
+             * 1 = notice
+             * 2 = resource
+             * 3 = send
+             */
+            FileController::uploadFiles($files, $notice->id, 2);
+        }
 
         return response()->json([
             'success' => true,

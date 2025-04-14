@@ -22,11 +22,13 @@ class AssignmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|max:255',
-            'description' => 'max:1024',
-            'topic' => 'integer|required|exists:topics,id',
-            'subject' => 'integer|required|exists:subjects,id',
-            'limit' => 'required|date_format:Y-m-d H:i'
+            'data' => 'required',
+            'data.title' => 'required|max:255',
+            'data.description' => 'max:1024',
+            'data.topic' => 'integer|required|exists:topics,id',
+            'data.subject' => 'integer|required|exists:subjects,id',
+            'data.limit' => 'required|date_format:Y-m-d H:i',
+            'files.*' => 'file'
         ];
     }
 }

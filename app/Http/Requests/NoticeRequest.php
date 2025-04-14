@@ -22,8 +22,10 @@ class NoticeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message' => 'required|max:1024',
-            'subject' => 'required|integer|exists:subjects,id'
+            'data' => 'required',
+            'data.message' => 'required|max:1024',
+            'data.subject' => 'required|integer|exists:subjects,id',
+            'files.*' => 'file'
         ];
     }
 }

@@ -65,7 +65,7 @@ Route::group([
     /**
      * Esto ocupa un multipart form donde ademas de los archivos mandes un json con el id de el aviso al que pertenecen. 
      */
-    Route::post('/file', [FileController::class, 'uploadFiles'])->middleware(RoleMiddleware::class . ':0');
+    //Route::post('/file', [FileController::class, 'uploadFiles'])->middleware(RoleMiddleware::class . ':0');
 
     /**
      * Esto regresa los subjects a los que pertenece el usuario.
@@ -158,10 +158,7 @@ Route::group(
         /**
          * Esto guarda avisos en la base de datos
          * 
-         * {
-         *       "message":"Hola",
-         *       "subject":1
-         * }
+         * Ahora usa un multipartForm
          */
         Route::post('/subject/notice', [NoticeController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
 
@@ -204,7 +201,7 @@ Route::group(
          */
         Route::post('/subject/assignment', [AssignmentController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
     
-        //Route::get('/subject/noGraded/{id}', [AssignmentController::class, 'noGradedAssigns'])->middleware(RoleMiddleware::class . ':1');
+        Route::get('/subject/noGraded/{id}', [AssignmentController::class, 'noGradedAssigns'])->middleware(RoleMiddleware::class . ':1');
     
         Route::patch('/subject/evaluate', [AssignmentController::class, 'evaluate'])->middleware(RoleMiddleware::class . ':1');
     }

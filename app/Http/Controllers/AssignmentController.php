@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssignmentRequest;
 use App\Http\Requests\EvaluateRequest;
 use App\Models\Assignment;
+use App\Models\File;
 use App\Models\Notice;
 use App\Models\Resource;
 use App\Models\Subject;
@@ -15,18 +16,20 @@ class AssignmentController extends Controller
 {
     public function store(AssignmentRequest $request)
     {
+        $files = $request->file('files');
+
         $resource = new Resource();
 
-        $resource->title = $request->title;
-        $resource->description = $request->description;
+        $resource->title = $request->input('data.title');
+        $resource->description = $request->input('data.description');
         $resource->topic_id = $request->topic;
 
         $user = auth()->user();
         $notice = new Notice();
 
-        $notice->message = $user->name . " " . $user->lastname . " ha publicado una nueva tarea: " . $request->title;
+        $notice->message = $user->name . " " . $user->lastname . " ha publicado una nueva tarea: " . $request->input('data.title');
         $notice->date = Carbon::now();
-        $notice->subject_id = $request->subject;
+        $notice->subject_id = $request->input('data.subject');
         $notice->save();
 
         $resource->notice_id = $notice->id;
@@ -34,12 +37,22 @@ class AssignmentController extends Controller
 
         $assignment = new Assignment();
 
-        $assignment->limit = $request->limit;
+        $assignment->limit = $request->input('data.limit');
         $assignment->resource_id = $resource->id;
         $assignment->save();
 
-        $subject = Subject::findOrFail($request->subject);
+        $subject = Subject::findOrFail($request->input('data.subject'));
         $assignment->users()->syncWithoutDetaching($subject->users()->where('role_id', 2)->select('users.id')->pluck('id')->toArray());
+
+        if($files){
+            /**
+             *  Types:
+             * 1 = notice
+             * 2 = resource
+             * 3 = send
+             */
+            FileController::uploadFiles($files, $notice->id, 2);
+        }
 
         return response()->json([
             'success' => true,
@@ -71,9 +84,32 @@ class AssignmentController extends Controller
         );
     }
 
+    /**
+     *  0 = Asignado
+     *  1 = Calificado
+     *  2 = Entregado 
+     */
     public function noGradedAssigns($id)
     {
-        $assignments = Assignment::findOrFail($id)->where('graded', 0);
-        dd($assignments);
+        $assignment = Assignment::findOrFail($id);
+        $users = $assignment->users()->where('status',2)->get();
+        $files = File::where('id',$assignment->id)->get();
+        dd(json_encode($files));
+    }
+
+
+    /**
+     *  0 = Asignado
+     *  1 = Calificado
+     *  2 = Entregado 
+     */
+    public function sendWork($id){
+        $user = auth()->user();
+        $assignment = $user->assignments()->where('assignment_id',$id)->first();
+        $assignment->pivot->status = 2;
+
+        return response()->json([
+            'success' => true
+        ],200);
     }
 }
