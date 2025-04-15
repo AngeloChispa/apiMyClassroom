@@ -119,6 +119,14 @@ Route::group([
      * 
      */
     Route::get('/subject/resources/{id}', [TopicController::class, 'resourcesOnTopic'])->middleware(RoleMiddleware::class . ':0');
+
+    /**
+     * Esto es un get simplemente agrega la busqueda a la ruta:
+     * Ejemplos:
+     * http://127.0.0.1:8000/api/auth/users/search/50
+     * http://127.0.0.1:8000/api/auth/users/search/cl
+     */
+    Route::get('/users/search/{value}', [UserController::class,'searchUser'])->middleware(RoleMiddleware::class . ':0');
 });
 
 Route::group(
@@ -214,6 +222,7 @@ Route::group([
     
     Route::get('/pendings', [AssignmentController::class, 'pendings'])->middleware(RoleMiddleware::class . ':2');
 
+    
     Route::post('/send', [AssignmentController::class, 'sendWork'])->middleware(RoleMiddleware::class . ':2');
 
 });
