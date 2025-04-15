@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AssignmentRequest;
 use App\Http\Requests\EvaluateRequest;
+use App\Http\Requests\SendRequest;
 use App\Models\Assignment;
 use App\Models\File;
 use App\Models\Notice;
@@ -103,14 +104,25 @@ class AssignmentController extends Controller
      *  1 = Calificado
      *  2 = Entregado 
      */
-    public function sendWork($id){
+    public function sendWork(SendRequest $request){
         $user = auth()->user();
-        $assignment = $user->assignments()->where('assignment_id',$id)->first();
+        $files = $request->file('files');
+        $assignment = $user->assignments()->where('assignment_id',$request->input('data.assign'))->first();
         $assignment->pivot->status = 2;
 
+        $assignment->pivot->save();
+        /**
+         *  Types:
+         * 1 = notice
+         * 2 = resource
+         * 3 = send
+         */
+        FileController::uploadFiles($files,$assignment->pivot->id,3);
+
         return response()->json([
-            'success' => true
-        ],200);
+            'success' => true,
+            $request->all(),
+        ],201);
     }
 
 
@@ -121,7 +133,7 @@ class AssignmentController extends Controller
      */
     public function pendings(){
         $user = auth()->user();
-        $earrings = $user->assignments()->with('resource')->wherePivot('status',0)->orderBy('pivot_limit', 'asc')->get();
+        $earrings = $user->assignments()->with('resource')->wherePivot('status',0)->orderBy('limit', 'asc')->get();
         
         return response()->json([
             $earrings->all()

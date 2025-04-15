@@ -213,4 +213,7 @@ Route::group([
 ], function ($router) {
     
     Route::get('/pendings', [AssignmentController::class, 'pendings'])->middleware(RoleMiddleware::class . ':2');
+
+    Route::post('/send', [AssignmentController::class, 'sendWork'])->middleware(RoleMiddleware::class . ':2');
+
 });
