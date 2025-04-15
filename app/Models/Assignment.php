@@ -19,6 +19,6 @@ class Assignment extends Model
     }
 
     public function users(): BelongsToMany{
-        return $this->belongsToMany(User::class)->withPivot('id','status', 'user_id', 'grades', 'graded');
+        return $this->belongsToMany(User::class)->withPivot('id','status', 'user_id', 'grades', 'graded','limit');
     }
 }

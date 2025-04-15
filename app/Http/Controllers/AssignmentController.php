@@ -22,7 +22,7 @@ class AssignmentController extends Controller
 
         $resource->title = $request->input('data.title');
         $resource->description = $request->input('data.description');
-        $resource->topic_id = $request->topic;
+        $resource->topic_id = $request->input('data.topic');
 
         $user = auth()->user();
         $notice = new Notice();
@@ -112,4 +112,20 @@ class AssignmentController extends Controller
             'success' => true
         ],200);
     }
+
+
+    /**
+     *  0 = Asignado
+     *  1 = Calificado
+     *  2 = Entregado 
+     */
+    public function earrings(){
+        $user = auth()->user();
+        $earrings = $user->assignments()->with('resource')->wherePivot('status',0)->orderBy('pivot_limit', 'asc')->get();
+        
+        return response()->json([
+            $earrings->all()
+        ],200);
+    }
+     
 }

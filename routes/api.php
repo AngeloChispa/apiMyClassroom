@@ -172,7 +172,7 @@ Route::group(
          * }
          */
         Route::post('/subject/topic', [TopicController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
-        
+
 
         /**
          * Esto permite crear material para un tema, para subir los archivos tienes que usar la ruta de subir archivos
@@ -186,7 +186,7 @@ Route::group(
          * }
          */
         Route::post('/subject/resource', [ResourceController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
-        
+
 
         /**
          * Esto permite crear una tarea para una clase en especifico
@@ -200,9 +200,17 @@ Route::group(
          * }
          */
         Route::post('/subject/assignment', [AssignmentController::class, 'store'])->middleware(RoleMiddleware::class . ':1');
-    
+
         Route::get('/subject/noGraded/{id}', [AssignmentController::class, 'noGradedAssigns'])->middleware(RoleMiddleware::class . ':1');
-    
+
         Route::patch('/subject/evaluate', [AssignmentController::class, 'evaluate'])->middleware(RoleMiddleware::class . ':1');
     }
 );
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'student'
+], function ($router) {
+    
+    Route::get('/earrings', [AssignmentController::class, 'earrings'])->middleware(RoleMiddleware::class . ':2');
+});
