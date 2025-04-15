@@ -10,6 +10,7 @@ use App\Models\File;
 use App\Models\Notice;
 use App\Models\Resource;
 use App\Models\Subject;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -94,6 +95,21 @@ class AssignmentController extends Controller
     {
         $assignment = Assignment::findOrFail($id);
         $users = $assignment->users()->where('status',2)->get();
+    
+        return response()->json([
+            'sends' => $users->all(),       
+        ]);
+    }
+
+    public function recoverWork(Request $request){
+        $assignment = Assignment::findOrFail($request->assignment);
+        $user = $assignment->users()->where('user_id', $request->student)->first();
+
+        $files = File::where('send_id', $user->pivot->id)->get();
+        
+        return response()->json([
+            'files' => $files->all()
+        ]);
     }
 
 
