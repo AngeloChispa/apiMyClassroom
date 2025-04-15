@@ -6,11 +6,13 @@ use App\Http\Requests\FileRequest;
 use App\Models\File;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
 
-    public static function uploadFiles($files,$id,$type){
+    public static function uploadFiles($files, $id, $type)
+    {
 
         /**
          *  Types:
@@ -19,26 +21,29 @@ class FileController extends Controller
          * 3 = send
          */
 
-        foreach($files as $file){
+        foreach ($files as $file) {
             $object = new File();
             $timestamp = Carbon::now()->format('Y-m-d_H-i-s');
             $filename = $file->getClientOriginalName() . '_' . $timestamp;
 
             $object->originalName = $file->getClientOriginalName();
-            $object->path = $filename;
+            $object->newName = $filename;
+            $object->path = env('APP_URL') . '/storage/' . $filename; // Genera URL pública
 
-            if($type === 1){
+            //$object->path = Storage::disk('external_storage')->path($filename);
+
+            if ($type === 1) {
                 $object->notice_id = $id;
-            }else if($type === 2){
+            } else if ($type === 2) {
                 $object->resource_id = $id;
-            }else{
+            } else {
                 $object->send_id = $id;
             }
-            
-            $file->storeAs('', $filename, 'external_storage');
+
+            $file->storeAs('', $filename, 'public');
+            //$file->storeAs('', $filename, 'external_storage');
             $object->save();
         }
-
     }
 
     /* public static function uploadFiles(FileRequest $request)

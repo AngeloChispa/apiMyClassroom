@@ -94,8 +94,6 @@ class AssignmentController extends Controller
     {
         $assignment = Assignment::findOrFail($id);
         $users = $assignment->users()->where('status',2)->get();
-        $files = File::where('id',$assignment->id)->get();
-        dd(json_encode($files));
     }
 
 
@@ -133,10 +131,10 @@ class AssignmentController extends Controller
      */
     public function pendings(){
         $user = auth()->user();
-        $earrings = $user->assignments()->with('resource')->wherePivot('status',0)->orderBy('limit', 'asc')->get();
+        $pendings = $user->assignments()->with('resource')->wherePivot('status',0)->orderBy('limit', 'asc')->get();
         
         return response()->json([
-            $earrings->all()
+            'data' => $pendings->all()
         ],200);
     }
      

@@ -12,7 +12,7 @@ class NoticeController extends Controller
 
     public function notices(int $id)
     {
-        return response()->json(Notice::where('subject_id', $id)->with('files')->get());
+        return response()->json(['notices' => Notice::where('subject_id', $id)->with('files','resource')->orderBy('created_at', 'desc')->get()]);
     }
 
     public function store(NoticeRequest $request)

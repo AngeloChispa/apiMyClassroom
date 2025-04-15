@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->string('originalName', 255);
+            $table->string('newName',512);
             $table->string('path', 512);
             $table->unsignedBigInteger('notice_id')->nullable();
             $table->foreign('notice_id')->references('id')->on('notices');

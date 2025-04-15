@@ -39,6 +39,6 @@ class UserController extends Controller
             ->orWhere('name', 'like', '%' . $query . '%')
             ->get();
 
-        return response()->json($usuarios);
+        return response()->json(['users' => $usuarios]);
     }
 }
