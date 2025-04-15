@@ -51,7 +51,7 @@ class AssignmentController extends Controller
              * 2 = resource
              * 3 = send
              */
-            FileController::uploadFiles($files, $notice->id, 2);
+            FileController::uploadFiles($files, $resource->id, 2);
         }
 
         return response()->json([
