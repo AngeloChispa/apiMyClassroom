@@ -119,7 +119,7 @@ class AssignmentController extends Controller
      *  1 = Calificado
      *  2 = Entregado 
      */
-    public function earrings(){
+    public function pendings(){
         $user = auth()->user();
         $earrings = $user->assignments()->with('resource')->wherePivot('status',0)->orderBy('pivot_limit', 'asc')->get();
         

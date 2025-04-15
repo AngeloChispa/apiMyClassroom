@@ -212,5 +212,5 @@ Route::group([
     'prefix' => 'student'
 ], function ($router) {
     
-    Route::get('/earrings', [AssignmentController::class, 'earrings'])->middleware(RoleMiddleware::class . ':2');
+    Route::get('/pendings', [AssignmentController::class, 'pendings'])->middleware(RoleMiddleware::class . ':2');
 });
