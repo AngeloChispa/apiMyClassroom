@@ -47,7 +47,7 @@ class ResourceController extends Controller
     }
 
     public function recoverResource($id){
-        $resource = Resource::findOrFail($id)->with('assignment')->get();
+        $resource = Resource::findOrFail($id)->with('assignment','files')->get();
         return response()->json(
             [
                 'resource' => $resource
