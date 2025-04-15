@@ -45,4 +45,13 @@ class ResourceController extends Controller
             'data' => $request->all()
         ],201);
     }
+
+    public function recoverResource($id){
+        $resource = Resource::findOrFail($id)->with('assignment')->get();
+        return response()->json(
+            [
+                'resource' => $resource
+            ]
+        );
+    }
 }

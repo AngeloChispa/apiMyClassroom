@@ -127,6 +127,8 @@ Route::group([
      * http://127.0.0.1:8000/api/auth/users/search/cl
      */
     Route::get('/users/search/{value}', [UserController::class,'searchUser'])->middleware(RoleMiddleware::class . ':0');
+
+    Route::get('/subject/resource/{id}', [ResourceController::class, 'recoverResource'])->middleware(RoleMiddleware::class . ':0');
 });
 
 Route::group(
